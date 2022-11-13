@@ -15,17 +15,18 @@ RUN dnf update -y && dnf install -y epel-release && \
     rpm -Uvh http://rpms.litespeedtech.com/centos/litespeed-repo-1.3-1.el8.noarch.rpm && \
     sed -i 's/failovermethod=priority/#failovermethod=priority/' /etc/yum.repos.d/litespeed.repo && \
     dnf install -y openlitespeed lsphp81 lsphp81-common lsphp81-devel lsphp81-curl lsphp81-dbg lsphp81-imap lsphp81-intl lsphp81-ldap lsphp81-opcache lsphp81-mysqlnd lsphp81-pgsql lsphp81-mbstring lsphp81-pspell lsphp81-snmp lsphp81-sqlite3 lsphp81-gd lsphp81-xml lsphp81-process lsphp81-sodium && \
+    dnf clean all
     # REDIS MAKE
-    curl https://pecl.php.net/get/redis-5.3.7.tgz --output /redis-5.3.7.tgz && \
+RUN curl https://pecl.php.net/get/redis-5.3.7.tgz --output /redis-5.3.7.tgz && \
     cd / && \
     tar -zxvf /redis-5.3.7.tgz && \
     cd /redis-5.3.7 && \
     /usr/local/lsws/lsphp81/bin/phpize && \
     ./configure --enable-redis --with-php-config=/usr/local/lsws/lsphp81/bin/php-config && \
     make install && \
-    mv /20-redis.ini /usr/local/lsws/lsphp81/etc/php.d/20-redis.ini && \
+    mv /20-redis.ini /usr/local/lsws/lsphp81/etc/php.d/20-redis.ini
     # LSWS PREP
-    ln -sf /usr/bin/tini /sbin/tini && \
+RUN ln -sf /usr/bin/tini /sbin/tini && \
     ln -sf /usr/local/lsws/lsphp81/bin/lsphp /usr/local/lsws/fcgi-bin/lsphp && \
     ln -sf /usr/local/lsws/lsphp81/bin/php /usr/bin/php && \
     mv /usr/local/lsws/conf /usr/local/lsws/conf-disabled && \
@@ -34,10 +35,10 @@ RUN dnf update -y && dnf install -y epel-release && \
     mv /comodo /usr/local/lsws/modsec/comodo && \
     chown lsadm:lsadm -R /usr/local/lsws/conf && \
     chown lsadm:lsadm -R /usr/local/lsws/modsec/comodo && \
-    chmod a+x /entrypoint.sh && \
+    chmod a+x /entrypoint.sh
     # ORCLE INSTANT CLIENT
     # MKDIR and download Oracle Instant Client
-    mkdir -p /usr/oracle && \
+RUN mkdir -p /usr/oracle && \
     curl https://download.oracle.com/otn_software/linux/instantclient/217000/instantclient-basic-linux.x64-21.7.0.0.0dbru.zip --output /usr/oracle/oic.zip && \
     curl https://download.oracle.com/otn_software/linux/instantclient/217000/instantclient-sdk-linux.x64-21.7.0.0.0dbru.zip --output /usr/oracle/sdk.zip && \
     # Unzip Oracle Instant Client
@@ -49,9 +50,9 @@ RUN dnf update -y && dnf install -y epel-release && \
     rm -f sdk.zip && \
     # Add shared lib config
     echo /usr/oracle > /etc/ld.so.conf.d/oracle-instantclient.conf && \
-    ldconfig && \
+    ldconfig
     # OCI8 MAKE
-    curl https://pecl.php.net/get/oci8-3.2.1.tgz --output /oci8-3.2.1.tgz && \
+RUN curl https://pecl.php.net/get/oci8-3.2.1.tgz --output /oci8-3.2.1.tgz && \
     cd / && \
     tar -zxvf /oci8-3.2.1.tgz && \
     cd /oci8-3.2.1 && \
@@ -60,8 +61,7 @@ RUN dnf update -y && dnf install -y epel-release && \
     make install && \
     mv /20-oci8.ini /usr/local/lsws/lsphp81/etc/php.d/20-oci8.ini && \
     rm -r /oci8-3.2.1 && \
-    rm -r /oci8-3.2.1.tgz && \
-    dnf clean all
+    rm -r /oci8-3.2.1.tgz
 
 WORKDIR /var/www/vhosts/localhost
 
