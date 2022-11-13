@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y tini locales wget procps pkg-config && 
     locale-gen && \
     wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash && \
     apt-get update && apt-get install -y openlitespeed lsphp74 lsphp74-apcu lsphp74-apcu-dbgsym lsphp74-common lsphp74-curl lsphp74-dbg lsphp74-dev lsphp74-igbinary lsphp74-igbinary-dbgsym lsphp74-imap lsphp74-intl lsphp74-ldap lsphp74-memcached lsphp74-memcached-dbgsym lsphp74-modules-source lsphp74-msgpack lsphp74-msgpack-dbgsym lsphp74-mysql lsphp74-opcache lsphp74-pear lsphp74-pgsql lsphp74-pspell lsphp74-snmp lsphp74-sqlite3 lsphp74-sybase lsphp74-tidy && \
-    ln -sf /usr/bin/tini /sbin/tini && \
+    apt-get clean
+RUN ln -sf /usr/bin/tini /sbin/tini && \
     ln -sf /bin/sed /usr/bin/sed && \
     ln -sf /usr/local/lsws/lsphp74/bin/lsphp /usr/local/lsws/fcgi-bin/lsphp && \
     ln -sf /usr/local/lsws/lsphp74/bin/php /usr/bin/php && \
@@ -26,11 +27,10 @@ RUN apt-get update && apt-get install -y tini locales wget procps pkg-config && 
     mv /comodo /usr/local/lsws/modsec/comodo && \
     mv /php.ini.file /usr/local/lsws/lsphp74/etc/php/7.4/litespeed/php.ini && \
     chown lsadm:lsadm -R /usr/local/lsws/conf && \
-    chown lsadm:lsadm -R /usr/local/lsws/modsec/comodo && \
-    pecl channel-update pecl.php.net && \
+    chown lsadm:lsadm -R /usr/local/lsws/modsec/comodo
+RUN pecl channel-update pecl.php.net && \
     pecl install redis && \
-    chmod a+x /entrypoint.sh && \
-    apt-get clean
+    chmod a+x /entrypoint.sh
 
 WORKDIR /var/www/vhosts/localhost
 
