@@ -11,7 +11,8 @@ on:
   pull_request:
     branches:
       - '*'
-
+  workflow_dispatch:
+  
 env:
   REGISTRY1: ghcr.io # GitHub Container Registry
   REGISTRY2: docker.io # Docker Hub
