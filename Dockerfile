@@ -35,7 +35,6 @@ RUN ln -sf /usr/bin/tini /sbin/tini && \
     chmod a+x /entrypoint.sh && \
     rm -r /redis-5.3.7 && \
     rm -r /redis-5.3.7.tgz
-RUN dnf remove -y lsphp73*
 
 WORKDIR /var/www/vhosts/localhost
 
