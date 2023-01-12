@@ -13,8 +13,6 @@ RUN dnf update -y && dnf install -y epel-release && \
     rpm -Uvh http://rpms.litespeedtech.com/centos/litespeed-repo-1.3-1.el8.noarch.rpm && \
     sed -i 's/failovermethod=priority/#failovermethod=priority/' /etc/yum.repos.d/litespeed.repo && \
     dnf install -y openlitespeed && \
-    dnf remove -y lsphp73* && \
-    rm -rf /usr/local/lsws/lsphp73 && \
     dnf install -y lsphp80 lsphp80-common lsphp80-devel lsphp80-curl lsphp80-dbg lsphp80-imap lsphp80-intl lsphp80-ldap lsphp80-opcache lsphp80-mysqlnd lsphp80-pgsql lsphp80-mbstring lsphp80-pspell lsphp80-snmp lsphp80-sqlite3 lsphp80-gd lsphp80-xml lsphp80-process && \
     dnf clean all
 RUN curl https://pecl.php.net/get/redis-5.3.7.tgz --output /redis-5.3.7.tgz && \
@@ -37,6 +35,8 @@ RUN ln -sf /usr/bin/tini /sbin/tini && \
     chmod a+x /entrypoint.sh && \
     rm -r /redis-5.3.7 && \
     rm -r /redis-5.3.7.tgz
+RUN dnf remove -y lsphp73* && \
+    rm -rf /usr/local/lsws/lsphp73
 
 WORKDIR /var/www/vhosts/localhost
 
