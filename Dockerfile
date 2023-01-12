@@ -62,7 +62,6 @@ RUN curl https://pecl.php.net/get/oci8-3.2.1.tgz --output /oci8-3.2.1.tgz && \
     mv /20-oci8.ini /usr/local/lsws/lsphp82/etc/php.d/20-oci8.ini && \
     rm -r /oci8-3.2.1 && \
     rm -r /oci8-3.2.1.tgz
-RUN dnf remove -y lsphp73*
 
 WORKDIR /var/www/vhosts/localhost
 
