@@ -10,10 +10,12 @@ COPY ./20-redis.ini /20-redis.ini
 RUN dnf update -y && dnf install -y epel-release && \
     dnf install -y tini glibc-all-langpacks procps pkg-config gcc gcc-c++ make autoconf glibc rcs && \
     dnf install -y fontconfig freetype libX11 libXext libXrender libjpeg libpng xorg-x11-fonts-75dpi xorg-x11-fonts-Type1 && \
-    rpm -Uvh https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox-0.12.6.1-2.almalinux8.x86_64.rpm && \
     rpm -Uvh http://rpms.litespeedtech.com/centos/litespeed-repo-1.3-1.el8.noarch.rpm && \
     sed -i 's/failovermethod=priority/#failovermethod=priority/' /etc/yum.repos.d/litespeed.repo && \
-    dnf install -y openlitespeed lsphp81 lsphp81-common lsphp81-devel lsphp81-curl lsphp81-dbg lsphp81-imap lsphp81-intl lsphp81-ldap lsphp81-opcache lsphp81-mysqlnd lsphp81-pgsql lsphp81-mbstring lsphp81-pspell lsphp81-snmp lsphp81-sqlite3 lsphp81-gd lsphp81-xml lsphp81-process lsphp81-sodium && \
+    dnf install -y openlitespeed && \
+    dnf remove -y lsphp73* && \
+    rm -rf /usr/local/lsws/lsphp73 && \
+    dnf install -y lsphp81 lsphp81-common lsphp81-devel lsphp81-curl lsphp81-dbg lsphp81-imap lsphp81-intl lsphp81-ldap lsphp81-opcache lsphp81-mysqlnd lsphp81-pgsql lsphp81-mbstring lsphp81-pspell lsphp81-snmp lsphp81-sqlite3 lsphp81-gd lsphp81-xml lsphp81-process lsphp81-sodium && \
     dnf clean all
 RUN curl https://pecl.php.net/get/redis-5.3.7.tgz --output /redis-5.3.7.tgz && \
     cd / && \
