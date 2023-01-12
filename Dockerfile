@@ -14,8 +14,6 @@ RUN dnf update -y && dnf install -y epel-release && \
     rpm -Uvh http://rpms.litespeedtech.com/centos/litespeed-repo-1.3-1.el8.noarch.rpm && \
     sed -i 's/failovermethod=priority/#failovermethod=priority/' /etc/yum.repos.d/litespeed.repo && \
     dnf install -y openlitespeed && \
-    dnf remove -y lsphp73* && \
-    rm -rf /usr/local/lsws/lsphp73 && \
     dnf install -y lsphp81 lsphp81-common lsphp81-devel lsphp81-curl lsphp81-dbg lsphp81-imap lsphp81-intl lsphp81-ldap lsphp81-opcache lsphp81-mysqlnd lsphp81-pgsql lsphp81-mbstring lsphp81-pspell lsphp81-snmp lsphp81-sqlite3 lsphp81-gd lsphp81-xml lsphp81-process lsphp81-sodium && \
     dnf clean all
     # REDIS MAKE
@@ -64,6 +62,8 @@ RUN curl https://pecl.php.net/get/oci8-3.2.1.tgz --output /oci8-3.2.1.tgz && \
     mv /20-oci8.ini /usr/local/lsws/lsphp81/etc/php.d/20-oci8.ini && \
     rm -r /oci8-3.2.1 && \
     rm -r /oci8-3.2.1.tgz
+RUN dnf remove -y lsphp73* && \
+    rm -rf /usr/local/lsws/lsphp73
 
 WORKDIR /var/www/vhosts/localhost
 
