@@ -1,0 +1,1 @@
+This LSPHP Repository will be deprecated. No Bugfix or changes will be applied.
