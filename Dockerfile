@@ -7,6 +7,7 @@ COPY ./comodo /comodo
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./20-redis.ini /20-redis.ini
 COPY ./20-oci8.ini /20-oci8.ini
+COPY ./mem-limit.ini /mem-limit.ini
 
 RUN dnf update -y && dnf install -y epel-release && \
     dnf install -y tini glibc-all-langpacks procps pkg-config gcc gcc-c++ make autoconf glibc rcs unzip libaio.i686 libaio.x86_64 && \
@@ -24,7 +25,8 @@ RUN curl https://pecl.php.net/get/redis-5.3.7.tgz --output /redis-5.3.7.tgz && \
     /usr/local/lsws/lsphp82/bin/phpize && \
     ./configure --enable-redis --with-php-config=/usr/local/lsws/lsphp82/bin/php-config && \
     make install && \
-    mv /20-redis.ini /usr/local/lsws/lsphp82/etc/php.d/20-redis.ini
+    mv /20-redis.ini /usr/local/lsws/lsphp82/etc/php.d/20-redis.ini && \
+    mv /mem-limit.ini /usr/local/lsws/lsphp82/etc/php.d/mem-limit.ini
     # LSWS PREP
 RUN ln -sf /usr/bin/tini /sbin/tini && \
     ln -sf /usr/local/lsws/lsphp82/bin/lsphp /usr/local/lsws/fcgi-bin/lsphp && \
