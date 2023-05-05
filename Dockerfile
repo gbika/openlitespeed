@@ -43,8 +43,8 @@ RUN ln -sf /usr/bin/tini /sbin/tini && \
     # ORCLE INSTANT CLIENT
     # MKDIR and download Oracle Instant Client
 RUN mkdir -p /usr/oracle && \
-    curl https://download.oracle.com/otn_software/linux/instantclient/217000/instantclient-basic-linux.x64-21.7.0.0.0dbru.zip --output /usr/oracle/oic.zip && \
-    curl https://download.oracle.com/otn_software/linux/instantclient/217000/instantclient-sdk-linux.x64-21.7.0.0.0dbru.zip --output /usr/oracle/sdk.zip && \
+    curl https://download.oracle.com/otn_software/linux/instantclient/2110000/instantclient-basic-linux.x64-21.10.0.0.0dbru.zip --output /usr/oracle/oic.zip && \
+    curl https://download.oracle.com/otn_software/linux/instantclient/2110000/instantclient-sdk-linux.x64-21.10.0.0.0dbru.zip --output /usr/oracle/sdk.zip && \
     # Unzip Oracle Instant Client
     cd /usr/oracle && \
     unzip oic.zip && \
@@ -56,16 +56,16 @@ RUN mkdir -p /usr/oracle && \
     echo /usr/oracle > /etc/ld.so.conf.d/oracle-instantclient.conf && \
     ldconfig
     # OCI8 MAKE
-RUN curl https://pecl.php.net/get/oci8-3.2.1.tgz --output /oci8-3.2.1.tgz && \
+RUN curl https://pecl.php.net/get/oci8-3.3.0.tgz --output /oci8-3.3.0.tgz && \
     cd / && \
-    tar -zxvf /oci8-3.2.1.tgz && \
-    cd /oci8-3.2.1 && \
+    tar -zxvf /oci8-3.3.0.tgz && \
+    cd /oci8-3.3.0 && \
     /usr/local/lsws/lsphp82/bin/phpize && \
     ./configure -with-oci8=instantclient,/usr/oracle/instantclient_21_7 --with-php-config=/usr/local/lsws/lsphp82/bin/php-config && \
     make install && \
     mv /20-oci8.ini /usr/local/lsws/lsphp82/etc/php.d/20-oci8.ini && \
-    rm -r /oci8-3.2.1 && \
-    rm -r /oci8-3.2.1.tgz
+    rm -r /oci8-3.3.0 && \
+    rm -r /oci8-3.3.0.tgz
 
 WORKDIR /var/www/vhosts/localhost
 
