@@ -61,7 +61,7 @@ RUN curl https://pecl.php.net/get/oci8-3.3.0.tgz --output /oci8-3.3.0.tgz && \
     tar -zxvf /oci8-3.3.0.tgz && \
     cd /oci8-3.3.0 && \
     /usr/local/lsws/lsphp82/bin/phpize && \
-    ./configure -with-oci8=instantclient,/usr/oracle/instantclient_21_7 --with-php-config=/usr/local/lsws/lsphp82/bin/php-config && \
+    ./configure -with-oci8=instantclient,/usr/oracle/instantclient_21_10 --with-php-config=/usr/local/lsws/lsphp82/bin/php-config && \
     make install && \
     mv /20-oci8.ini /usr/local/lsws/lsphp82/etc/php.d/20-oci8.ini && \
     rm -r /oci8-3.3.0 && \
