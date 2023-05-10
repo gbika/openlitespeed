@@ -36,9 +36,7 @@ trap 'abort_handler' SIGINT INT
 
 # run application if no ARGS / CMD
 if [ $# -eq 0 ]; then
-    /usr/local/lsws/bin/litespeed &
-    pid="$!"    
-    wait $pid
+    /usr/local/lsws/bin/litespeed
 else
     exec "$@"
 fi
@@ -47,7 +45,7 @@ fi
 while true; do
     if [ $# -eq 0 ]; then
         if ! /usr/local/lsws/bin/lswsctrl status | grep 'litespeed is running' > /dev/null; then
-            break
+            exit 143; # 128 + 15 -- SIGTERM
         fi
     fi
     sleep 300 &
