@@ -49,7 +49,7 @@ while true; do
         if ! /usr/local/lsws/bin/lswsctrl status | grep 'litespeed is running' > /dev/null; then
             break
         fi
-    else
-        sleep 60
     fi
+    sleep 300 &
+    wait $!
 done
