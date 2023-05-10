@@ -1,10 +1,55 @@
 #!/bin/bash
-/usr/local/lsws/bin/lswsctrl start
-$@
-while true; do
-	if ! /usr/local/lsws/bin/lswsctrl status | grep 'litespeed is running with PID *' > /dev/null; then
-		break
-	fi
-	sleep 60
-done
 
+# init PID
+pid=0
+
+# SIGTERM signal handlers
+sigterm_handler() {
+    if [ $pid -ne 0 ]; then
+        kill -s SIGTERM $pid
+        wait $pid
+    fi
+    exit 143; # 128 + 15 -- SIGTERM
+}
+
+# SIGKILL signal handlers
+sigkill_handler() {
+    if [ $pid -ne 0 ]; then
+        kill -s SIGKILL $pid
+        wait $pid
+    fi
+    exit 137; # 128 + 9 -- SIGKILL
+}
+
+# CTRL + C signal handlers
+abort_handler() {
+    if [ $pid -ne 0 ]; then
+        kill -s SIGTERM $pid
+        wait $pid
+    fi
+    exit 130; # 128 + 2 -- SIGINT
+}
+
+trap 'sigterm_handler' SIGTERM
+trap 'sigkill_handler' SIGKILL
+trap 'abort_handler' SIGINT INT
+
+# run application if no ARGS / CMD
+if [ $# -eq 0 ]; then
+    /usr/local/lsws/bin/litespeed &
+    pid="$!"    
+    wait $pid
+else
+    exec "$@"
+fi
+
+# prevent container from exiting
+while true; do
+    if [ $# -eq 0 ]; then
+        if ! /usr/local/lsws/bin/lswsctrl status | grep 'litespeed is running' > /dev/null; then
+            break
+        fi
+    else
+        sleep 60
+    fi
+done

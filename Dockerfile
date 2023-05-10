@@ -1,7 +1,5 @@
 FROM almalinux:8
 
-ENV TINI_VERSION=v0.19.0
-
 COPY ./lsws-conf /lsws-conf
 COPY ./comodo /comodo
 COPY ./entrypoint.sh /entrypoint.sh
@@ -11,7 +9,7 @@ COPY ./mem-limit.ini /mem-limit.ini
 COPY ./max-file-upload.ini /max-file-upload.ini
 
 RUN dnf update -y && dnf install -y epel-release && \
-    dnf install -y tini glibc-all-langpacks procps pkg-config gcc gcc-c++ make autoconf glibc rcs unzip libaio.i686 libaio.x86_64 && \
+    dnf install -y glibc-all-langpacks procps pkg-config gcc gcc-c++ make autoconf glibc rcs unzip libaio.i686 libaio.x86_64 && \
     dnf install -y fontconfig freetype libX11 libXext libXrender libjpeg libpng xorg-x11-fonts-75dpi xorg-x11-fonts-Type1 && \
     rpm -Uvh http://rpms.litespeedtech.com/centos/litespeed-repo-1.3-1.el8.noarch.rpm && \
     sed -i 's/failovermethod=priority/#failovermethod=priority/' /etc/yum.repos.d/litespeed.repo && \
@@ -69,6 +67,4 @@ RUN curl https://pecl.php.net/get/oci8-3.3.0.tgz --output /oci8-3.3.0.tgz && \
 
 WORKDIR /var/www/vhosts/localhost
 
-ENTRYPOINT ["/sbin/tini", "-g", "--"]
-CMD ["/entrypoint.sh"]
-
+ENTRYPOINT ["/entrypoint.sh"]
