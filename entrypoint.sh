@@ -48,7 +48,7 @@ while true; do
             exit 143; # 128 + 15 -- SIGTERM
         fi
     fi
-done
 
-# prevent container from exiting and get stdout
-tail -f /usr/local/lsws/logs/error.log
+    # prevent container from exiting and get stdout
+    tail -f /usr/local/lsws/logs/error.log
+done
