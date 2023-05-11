@@ -41,13 +41,14 @@ else
     exec "$@"
 fi
 
-# prevent container from exiting
+# container healthcheck
 while true; do
     if [ $# -eq 0 ]; then
         if ! /usr/local/lsws/bin/lswsctrl status | grep 'litespeed is running' > /dev/null; then
             exit 143; # 128 + 15 -- SIGTERM
         fi
     fi
-    sleep 300 &
-    wait $!
 done
+
+# prevent container from exiting and get stdout
+tail -f /usr/local/lsws/logs/error.log
