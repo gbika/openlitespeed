@@ -1,7 +1,7 @@
 FROM almalinux:8
 
 COPY ./lsws-conf /lsws-conf
-COPY ./comodo /comodo
+COPY ./rules /rules
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./20-redis.ini /20-redis.ini
 COPY ./20-oci8.ini /20-oci8.ini
@@ -34,9 +34,9 @@ RUN ln -sf /usr/bin/tini /sbin/tini && \
     mv /usr/local/lsws/conf /usr/local/lsws/conf-disabled && \
     mv /lsws-conf /usr/local/lsws/conf && \
     mkdir -p /usr/local/lsws/modsec && \
-    mv /comodo /usr/local/lsws/modsec/comodo && \
+    mv /rules /usr/local/lsws/modsec/rules && \
     chown lsadm:lsadm -R /usr/local/lsws/conf && \
-    chown lsadm:lsadm -R /usr/local/lsws/modsec/comodo && \
+    chown lsadm:lsadm -R /usr/local/lsws/modsec/rules && \
     chmod a+x /entrypoint.sh
     # ORCLE INSTANT CLIENT
     # MKDIR and download Oracle Instant Client
