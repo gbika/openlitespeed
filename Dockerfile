@@ -24,9 +24,7 @@ RUN curl https://pecl.php.net/get/redis-5.3.7.tgz --output /redis-5.3.7.tgz && \
     /usr/local/lsws/lsphp82/bin/phpize && \
     ./configure --enable-redis --with-php-config=/usr/local/lsws/lsphp82/bin/php-config && \
     make install && \
-    mv /20-redis.ini /usr/local/lsws/lsphp82/etc/php.d/20-redis.ini && \
-    mv /mem-limit.ini /usr/local/lsws/lsphp82/etc/php.d/mem-limit.ini && \
-    mv /max-file-upload.ini /usr/local/lsws/lsphp82/etc/php.d/max-file-upload.ini
+    mv /20-redis.ini /usr/local/lsws/lsphp82/etc/php.d/20-redis.ini
     # LSWS PREP
 RUN ln -sf /usr/bin/tini /sbin/tini && \
     ln -sf /usr/local/lsws/lsphp82/bin/lsphp /usr/local/lsws/fcgi-bin/lsphp && \
@@ -37,6 +35,8 @@ RUN ln -sf /usr/bin/tini /sbin/tini && \
     mv /rules /usr/local/lsws/modsec/rules && \
     chown lsadm:lsadm -R /usr/local/lsws/conf && \
     chown lsadm:lsadm -R /usr/local/lsws/modsec/rules && \
+    mv /mem-limit.ini /usr/local/lsws/lsphp82/etc/php.d/mem-limit.ini && \
+    mv /max-file-upload.ini /usr/local/lsws/lsphp82/etc/php.d/max-file-upload.ini && \
     chmod a+x /entrypoint.sh
     # ORCLE INSTANT CLIENT
     # MKDIR and download Oracle Instant Client
