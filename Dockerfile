@@ -24,7 +24,9 @@ RUN curl https://pecl.php.net/get/redis-5.3.7.tgz --output /redis-5.3.7.tgz && \
     /usr/local/lsws/lsphp82/bin/phpize && \
     ./configure --enable-redis --with-php-config=/usr/local/lsws/lsphp82/bin/php-config && \
     make install && \
-    mv /20-redis.ini /usr/local/lsws/lsphp82/etc/php.d/20-redis.ini
+    mv /20-redis.ini /usr/local/lsws/lsphp82/etc/php.d/20-redis.ini && \
+    rm -r /redis-5.3.7 && \
+    rm -r /redis-5.3.7.tgz
     # LSWS PREP
 RUN ln -sf /usr/bin/tini /sbin/tini && \
     ln -sf /usr/local/lsws/lsphp82/bin/lsphp /usr/local/lsws/fcgi-bin/lsphp && \
